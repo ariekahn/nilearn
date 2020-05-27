@@ -243,11 +243,11 @@ def test_check_niimg_wildcards():
     assert ni.EXPAND_PATH_WILDCARDS == True
     # Check bad filename
     # Non existing file (with no magic) raise a ValueError exception
-    with pytest.raises(ValueError, match=file_not_found_msg % nofile_path):
+    with pytest.raises(FileNotFoundError, match=file_not_found_msg % nofile_path):
         _utils.check_niimg(nofile_path)
     # Non matching wildcard raises a ValueError exception
     with pytest.raises(
-            ValueError,
+            FileNotFoundError,
             match=wildcards_msg % re.escape(nofile_path_wildcards)):
         _utils.check_niimg(nofile_path_wildcards)
 
@@ -297,7 +297,7 @@ def test_check_niimg_wildcards():
                                 create_files=True,
                                 use_wildcards=True) as globs:
         glob_input = tmp_dir + globs
-        with pytest.raises(ValueError,
+        with pytest.raises(FileNotFoundError,
                            match=file_not_found_msg % re.escape(glob_input)
                            ):
             _utils.check_niimg(glob_input, wildcards=False)
@@ -318,11 +318,11 @@ def test_check_niimg_wildcards():
     # Non existing filename (/tmp/nofile) could match an existing one through
     # globbing but global wildcards variable overrides this feature => raises
     # a ValueError
-    with pytest.raises(ValueError, match=file_not_found_msg % nofile_path):
+    with pytest.raises(FileNotFoundError, match=file_not_found_msg % nofile_path):
         _utils.check_niimg(nofile_path)
 
     # Verify wildcards function parameter has no effect
-    with pytest.raises(ValueError, match=file_not_found_msg % nofile_path):
+    with pytest.raises(FileNotFoundError, match=file_not_found_msg % nofile_path):
         _utils.check_niimg(nofile_path, wildcards=False)
 
     # Testing with an exact filename matching (3d case)

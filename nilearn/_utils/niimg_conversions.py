@@ -202,8 +202,8 @@ def check_niimg(niimg, ensure_ndim=None, atleast_4d=False, dtype=None,
         filenames.
         If multiple files match, the returned list is sorted using an ascending
         order.
-        If no file matches the regular expression, a ValueError exception is
-        raised.
+        If no file matches the regular expression, a FileNotFoundError
+        exception is raised.
 
     Returns
     -------
@@ -246,11 +246,11 @@ def check_niimg(niimg, ensure_ndim=None, atleast_4d=False, dtype=None,
                            "activated: please set the global constant "
                            "'nilearn.EXPAND_PATH_WILDCARDS' to False to "
                            "deactivate this behavior.") % niimg
-                raise ValueError(message)
+                raise FileNotFoundError(message)
             else:
-                raise ValueError("File not found: '%s'" % niimg)
+                raise FileNotFoundError("File not found: '%s'" % niimg)
         elif not os.path.exists(niimg):
-            raise ValueError("File not found: '%s'" % niimg)
+            raise FileNotFoundError("File not found: '%s'" % niimg)
 
     # in case of an iterable
     if hasattr(niimg, "__iter__") and not isinstance(niimg, str):
